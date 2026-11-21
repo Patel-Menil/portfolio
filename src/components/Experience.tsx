@@ -44,6 +44,20 @@ function Entry({ entry, index }: { entry: ExperienceEntry; index: number }) {
               entry.organization
             )}
           </p>
+          {entry.progression && (
+            <ol aria-label="Role progression" className="mt-4 space-y-1.5 border-l border-border pl-4">
+              {entry.progression.map((step, i) => (
+                <li key={step.role} className="relative flex flex-wrap items-baseline gap-x-3 text-sm">
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -left-[19.5px] top-[7px] h-1.5 w-1.5 rounded-full ${i === 0 ? 'bg-primary' : 'bg-text-muted'}`}
+                  />
+                  <span className={i === 0 ? 'font-medium text-text-primary' : 'text-text-secondary'}>{step.role}</span>
+                  <span className="font-mono text-xs text-text-muted">{step.period}</span>
+                </li>
+              ))}
+            </ol>
+          )}
         </header>
 
         <p className="leading-relaxed text-text-secondary">{entry.summary}</p>

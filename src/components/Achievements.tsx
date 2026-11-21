@@ -88,7 +88,10 @@ export default function Achievements() {
                 <p className="eyebrow mb-2 !text-[11px]">Leadership</p>
                 <h3 className="text-lg font-semibold text-text-primary">CODAME Competitive Programming Club · IIIT Bhopal</h3>
               </div>
-              <p className="text-sm text-text-muted">Executive Member · Dec 2024 – Present</p>
+              <p className="text-sm text-text-muted">
+                Event Lead · Sep 2026 – Present
+                <span className="block md:text-right">Executive Member · Dec 2024 – Sep 2026</span>
+              </p>
             </div>
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4 lg:grid-cols-7 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
               {codameMetrics.map((m) => (

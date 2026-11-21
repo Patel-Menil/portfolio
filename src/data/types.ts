@@ -102,6 +102,8 @@ export interface Experience {
   period: string;
   location?: string;
   type: string;
+  /** Role history within the same organisation, most recent first. */
+  progression?: { role: string; period: string }[];
   summary: string;
   points: string[];
   metrics?: ExperienceMetric[];

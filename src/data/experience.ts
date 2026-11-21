@@ -51,15 +51,20 @@ export const experience: Experience[] = [
   {
     id: 'codame',
     organization: 'CODAME Competitive Programming Club',
-    role: 'Executive Member',
+    role: 'Event Lead',
+    // Overall tenure with the club; individual roles are listed in `progression`.
     period: 'Dec 2024 – Present',
     location: 'IIIT Bhopal',
     type: 'Technical Leadership',
+    progression: [
+      { role: 'Event Lead', period: 'Sep 2026 – Present' },
+      { role: 'Executive Member', period: 'Dec 2024 – Sep 2026' },
+    ],
     summary:
       'Contributing to the competitive programming community through contest organisation, technical mentoring, code reviews and structured coding sessions.',
     points: [
       'Organised 3 contests featuring 6+ high-rated problems for IIIT Bhopal students.',
-      'Mentor 150+ junior students through DSA practice, code reviews and competitive programming talks.',
+      'Mentored 150+ junior students through DSA practice, code reviews and competitive programming talks.',
       'Led 14 coding sessions for 50 attendees, walking through solution approaches for around 65 contest problems.',
     ],
     metrics: [
