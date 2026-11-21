@@ -1,81 +1,49 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { skillsData } from '../data/skills';
+import { skillGroups } from '../data/skills';
+import Reveal from './ui/Reveal';
+import SectionHeading from './ui/SectionHeading';
 
-const Skills = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
-
+export default function Skills() {
   return (
-    <section id="skills" className="py-24 relative">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <h2 className="text-sm font-mono text-accent mb-4 uppercase tracking-widest">02 / Technical Arsenal</h2>
-          <h3 className="text-3xl md:text-5xl font-bold mb-6">Skills & Domains</h3>
-        </motion.div>
+    <section id="skills" aria-labelledby="skills-title" className="relative border-t border-border py-24 md:py-32">
+      <div className="container-page">
+        <SectionHeading id="skills-title" index="04" label="Technical Skills" title="Breadth, grounded in real work">
+          Grouped by domain, each with the projects where it was actually used. No percentage bars — the projects are the
+          evidence.
+        </SectionHeading>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Categories List */}
-          <div className="w-full lg:w-1/3 flex flex-col space-y-2">
-            {skillsData.map((category, index) => (
-              <button
-                key={index}
-                onMouseEnter={() => setActiveCategory(index)}
-                onClick={() => setActiveCategory(index)}
-                className={`text-left px-6 py-4 rounded-lg transition-all duration-300 font-mono text-lg border-l-2 ${
-                  activeCategory === index
-                    ? 'bg-surface border-primary text-text-primary'
-                    : 'border-transparent text-text-secondary hover:text-text-primary hover:bg-surface/50'
-                }`}
-              >
-                {category.category}
-              </button>
-            ))}
-          </div>
-
-          {/* Active Category Details */}
-          <div className="w-full lg:w-2/3 min-h-[300px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="p-8 rounded-xl glass-card h-full"
-              >
-                <h4 className="text-2xl font-bold mb-4 font-mono text-primary">
-                  {skillsData[activeCategory].category}
-                </h4>
-                <p className="text-text-secondary mb-8 text-lg">
-                  {skillsData[activeCategory].description}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((group, i) => (
+            <Reveal
+              key={group.id}
+              delay={(i % 3) * 0.06}
+              className={`card flex flex-col p-6 transition-colors hover:border-border-strong ${
+                group.id === 'tools' ? 'sm:col-span-2 lg:col-span-1' : ''
+              }`}
+            >
+              <div className="mb-1 flex items-baseline justify-between gap-3">
+                <h3 className="text-base font-semibold text-text-primary">{group.title}</h3>
+                <span className="font-mono text-[11px] text-text-muted">{String(group.skills.length).padStart(2, '0')}</span>
+              </div>
+              <p className="text-sm text-text-muted">{group.summary}</p>
+              <ul className="mt-5 flex flex-wrap gap-1.5">
+                {group.skills.map((skill) => (
+                  <li
+                    key={skill}
+                    className="rounded-md border border-border bg-surface-2/60 px-2.5 py-1 text-[13px] text-text-secondary"
+                  >
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto pt-5">
+                <p className="border-t border-border pt-4 font-mono text-[11px] leading-relaxed text-text-muted">
+                  <span className="text-primary/80">used in</span> {group.evidence}
                 </p>
-                
-                <div className="flex flex-wrap gap-3">
-                  {skillsData[activeCategory].skills.map((skill, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="px-4 py-2 rounded-full border border-border bg-background text-sm font-medium hover:border-primary hover:text-primary transition-colors cursor-default"
-                    >
-                      {skill}
-                    </motion.span>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

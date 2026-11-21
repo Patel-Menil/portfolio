@@ -1,69 +1,68 @@
-import { motion } from 'framer-motion';
-import { Code, User, Mail } from 'lucide-react';
+import { ArrowUpRight, Download, Mail } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { links, site } from '../lib/site';
+import ButtonLink from './ui/Button';
+import { GitHubIcon, LinkedInIcon } from './ui/Icons';
+import Reveal from './ui/Reveal';
 
-const Contact = () => {
+function ContactCard({ href, icon, label, value }: { href: string; icon: ReactNode; label: string; value: string }) {
+  const external = href.startsWith('http');
   return (
-    <section id="contact" className="py-32 relative border-t border-border bg-surface/10">
-      <div className="container mx-auto px-6 max-w-4xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl md:text-6xl font-bold mb-8">Let's Build Something Interesting.</h2>
-          <p className="text-xl text-text-secondary mb-12 font-light leading-relaxed max-w-2xl mx-auto">
-            I'm interested in difficult engineering problems, ambitious products, and systems that push beyond the obvious solution.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-              <a 
-                href="mailto:patelmenil8494@gmail.com"
-                className="flex items-center gap-4 p-6 rounded-xl bg-background border border-border hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center group-hover:text-primary transition-colors">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-mono text-text-secondary mb-1">Email</h4>
-                  <p className="text-lg font-medium">patelmenil8494@gmail.com</p>
-                </div>
-              </a>
-              
-              <a 
-                href="https://github.com/Patel-Menil"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-6 rounded-xl bg-background border border-border hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center group-hover:text-primary transition-colors">
-                  <Code className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-mono text-text-secondary mb-1">GitHub</h4>
-                  <p className="text-lg font-medium">github.com/Patel-Menil</p>
-                </div>
-              </a>
+    <a
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="card group flex items-center gap-4 p-5 transition-colors hover:border-primary/50"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border-strong bg-surface-2 text-text-secondary transition-colors group-hover:text-primary">
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-mono text-[11px] uppercase tracking-wider text-text-muted">{label}</span>
+        <span className="block truncate text-[15px] font-medium text-text-primary">{value}</span>
+      </span>
+      <ArrowUpRight className="h-4 w-4 shrink-0 text-text-muted transition-colors group-hover:text-primary" aria-hidden="true" />
+      {external && <span className="sr-only">(opens in a new tab)</span>}
+    </a>
+  );
+}
 
-              <a 
-                href="https://www.linkedin.com/in/menil-patel-631278321"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 p-6 rounded-xl bg-background border border-border hover:border-primary/50 transition-colors group"
-              >
-                <div className="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center group-hover:text-primary transition-colors">
-                  <User className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-mono text-text-secondary mb-1">LinkedIn</h4>
-                  <p className="text-lg font-medium">Menil Patel</p>
-                </div>
-              </a>
+export default function Contact() {
+  return (
+    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden border-t border-border py-24 md:py-36">
+      <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-0 h-80 w-[40rem] -translate-x-1/2 rounded-full bg-primary/[0.08] blur-[120px]" />
+      <div className="container-page relative">
+        <Reveal className="mx-auto max-w-3xl text-center">
+          <p className="eyebrow mb-5">
+            <span className="text-text-muted">07</span>
+            <span className="mx-2 text-text-muted">/</span>Contact
+          </p>
+          <h2 id="contact-title" className="text-4xl font-semibold tracking-tight text-text-primary md:text-6xl">
+            Let’s Build Something Interesting.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary">
+            I’m interested in challenging engineering problems, ambitious products, and opportunities to build systems that make a
+            meaningful technical impact.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <ButtonLink href={links.email}>
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              Email me
+            </ButtonLink>
+            <ButtonLink href={site.resumePath} variant="secondary" download={site.resumeFileName}>
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Download Resume
+            </ButtonLink>
           </div>
-        </motion.div>
+        </Reveal>
+
+        <Reveal delay={0.1} className="mx-auto mt-14 grid max-w-5xl gap-4 md:grid-cols-[1.4fr_1fr_1fr]">
+          <ContactCard href={links.email} icon={<Mail className="h-5 w-5" aria-hidden="true" />} label="Email" value={site.email} />
+          <ContactCard href={links.github} icon={<GitHubIcon className="h-5 w-5" />} label="GitHub" value="Patel-Menil" />
+          <ContactCard href={links.linkedin} icon={<LinkedInIcon className="h-5 w-5" />} label="LinkedIn" value="menil-patel1710" />
+        </Reveal>
+
+        <p className="mt-10 text-center font-mono text-xs text-text-muted">Based in {site.location} · Open to SDE internships and collaborations</p>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}
