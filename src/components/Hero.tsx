@@ -1,115 +1,152 @@
 import { motion } from 'framer-motion';
-import { Code, User, Terminal } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
+import ButtonLink from './ui/Button';
+import { GitHubIcon, LinkedInIcon } from './ui/Icons';
+import { links, site } from '../lib/site';
 
-const Hero = () => {
+const trajectory = ['Competitive Programming', 'Systems Engineering', 'AI Infrastructure', 'Product Development'];
+
+const signals = [
+  { value: '2035', label: 'CodeChef peak · 5★' },
+  { value: '1626', label: 'Codeforces peak · Expert' },
+  { value: 'Top 10', label: 'Smart India Hackathon 2025' },
+];
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Abstract Background Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-accent/10 rounded-full blur-[150px]" />
-        
-        {/* Subtle Node Graph Animation */}
-        <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-          <motion.circle 
-            cx="20%" cy="30%" r="2" fill="#38bdf8"
-            animate={{ cy: ["30%", "32%", "30%"], opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.circle 
-            cx="80%" cy="60%" r="2" fill="#8b5cf6"
-            animate={{ cy: ["60%", "58%", "60%"], opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
-          <motion.circle 
-            cx="40%" cy="70%" r="2" fill="#f3f4f6"
-            animate={{ cx: ["40%", "42%", "40%"], opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
-          <motion.path 
-            d="M 20% 30% L 40% 70% L 80% 60%" 
-            stroke="rgba(255,255,255,0.05)" 
-            strokeWidth="1" 
-            fill="none" 
-          />
-        </svg>
+    <section id="top" aria-labelledby="hero-title" className="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
+      {/* Background: static grid + two soft light sources. No infinite loops. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent)]" />
+        <div className="absolute -top-40 left-[10%] h-[32rem] w-[32rem] rounded-full bg-primary/10 blur-[130px]" />
+        <div className="absolute top-40 right-[5%] h-[26rem] w-[26rem] rounded-full bg-success/[0.07] blur-[130px]" />
       </div>
 
-      <div className="container mx-auto px-6 z-10 relative h-full flex flex-col lg:flex-row items-center justify-between gap-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+      <div className="container-page relative grid items-center gap-14 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease }}
+            className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-border-strong bg-surface/70 px-3 py-1.5"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden="true" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-text-secondary">Software Engineer</span>
+          </motion.div>
+
+          <motion.h1
+            id="hero-title"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.05, ease }}
+          >
+            <span className="mb-4 block font-mono text-sm font-medium uppercase tracking-[0.3em] text-text-secondary">
+              Menil Patel
+            </span>
+            <span className="block text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-text-primary sm:text-6xl lg:text-[4.25rem]">
+              I build systems that <span className="text-gradient">think, move, and scale.</span>
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease }}
+            className="mt-7 max-w-2xl text-lg leading-relaxed text-text-secondary md:text-xl"
+          >
+            Software engineer interested in algorithms, systems engineering, blockchain, and AI infrastructure. I build practical
+            products and enjoy working on challenging engineering problems across different domains.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[13px] text-text-muted"
+          >
+            <span className="text-primary" aria-hidden="true">
+              $
+            </span>
+            {trajectory.map((step, i) => (
+              <span key={step} className="flex items-center gap-2">
+                <span className={i === trajectory.length - 1 ? 'text-text-primary' : ''}>{step}</span>
+                {i < trajectory.length - 1 && <span aria-hidden="true">→</span>}
+              </span>
+            ))}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35, ease }}
+            className="mt-10 flex flex-wrap items-center gap-3"
+          >
+            <ButtonLink href="/#projects" internal>
+              View Projects
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </ButtonLink>
+            <ButtonLink href={site.resumePath} variant="secondary" download={site.resumeFileName}>
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Download Resume
+            </ButtonLink>
+            <div className="ml-1 flex items-center gap-1">
+              <a
+                href={links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+                className="rounded-lg p-2.5 text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
+              >
+                <GitHubIcon className="h-5 w-5" />
+              </a>
+              <a
+                href={links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+                className="rounded-lg p-2.5 text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
+              >
+                <LinkedInIcon className="h-5 w-5" />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.figure
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-3xl lg:w-3/5"
+          transition={{ duration: 0.8, delay: 0.2, ease }}
+          className="mx-auto w-full max-w-sm lg:max-w-none"
         >
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-border bg-surface/50 mb-8 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-mono tracking-wider text-text-secondary uppercase">Systems Engineer</span>
+          <div className="card overflow-hidden p-2">
+            <div className="group relative aspect-square overflow-hidden rounded-xl">
+              <img
+                src={site.portrait}
+                alt="Portrait of Menil Patel"
+                width={400}
+                height={400}
+                fetchPriority="high"
+                className="h-full w-full object-cover saturate-[0.8] transition duration-700 ease-out group-hover:scale-[1.03] group-hover:saturate-100"
+              />
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+              <figcaption className="absolute inset-x-0 bottom-0 p-4">
+                <p className="text-sm font-medium text-white">Menil Patel</p>
+                <p className="font-mono text-[11px] text-white/70">B.Tech IT · IIIT Bhopal · {site.location}</p>
+              </figcaption>
+            </div>
+            <dl className="grid grid-cols-3 divide-x divide-border">
+              {signals.map((s) => (
+                <div key={s.label} className="flex flex-col-reverse px-2 py-3.5 text-center">
+                  <dt className="mt-0.5 font-mono text-[10px] leading-tight text-text-muted">{s.label}</dt>
+                  <dd className="text-lg font-semibold tracking-tight text-text-primary">{s.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] mb-6">
-            I build systems that <br className="hidden md:block" />
-            <span className="text-gradient">think, move, and scale.</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-light mb-4">
-            Software engineer working across algorithms, blockchain, games, and AI security.
-          </p>
-
-          <p className="text-base md:text-lg text-text-secondary/70 max-w-2xl font-mono mb-12">
-            &gt; From competitive programming and game AI to decentralized applications and secure AI infrastructure.
-          </p>
-
-          <div className="flex gap-4 mb-16 relative z-20">
-            <a 
-              href="#projects" 
-              className="px-8 py-4 bg-primary text-black font-bold rounded-lg hover:bg-white transition-colors flex items-center gap-2"
-            >
-              <Terminal className="w-5 h-5" />
-              View Work
-            </a>
-            <a 
-              href="https://github.com/Patel-Menil" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="p-4 bg-surface/50 border border-border rounded-lg hover:bg-white/10 hover:border-primary/50 transition-all text-text-secondary hover:text-white backdrop-blur-sm"
-              aria-label="GitHub Profile"
-            >
-              <Code className="w-5 h-5" />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/menil-patel-631278321" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="p-4 bg-surface/50 border border-border rounded-lg hover:bg-white/10 hover:border-primary/50 transition-all text-text-secondary hover:text-white backdrop-blur-sm"
-              aria-label="LinkedIn Profile"
-            >
-              <User className="w-5 h-5" />
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-          className="lg:w-2/5 flex justify-center lg:justify-end w-full"
-        >
-          <div className="relative w-72 h-72 md:w-96 md:h-96 xl:w-[28rem] xl:h-[28rem] rounded-2xl overflow-hidden border border-border/50 shadow-2xl group">
-            {/* Overlay for cinematic effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-background/40 to-transparent z-10 pointer-events-none transition-opacity duration-500 group-hover:opacity-0" />
-            
-            {/* Image styling - grayscale to color on hover */}
-            <img 
-              src="/me.jpg" 
-              alt="Menil Patel" 
-              className="w-full h-full object-cover object-center grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-in-out transform group-hover:scale-105"
-            />
-          </div>
-        </motion.div>
+        </motion.figure>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

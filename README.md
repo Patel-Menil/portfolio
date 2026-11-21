@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# Menil Patel — Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Personal portfolio and project case studies. React 19 + TypeScript + Vite, Tailwind CSS v4, Framer Motion, Lucide icons.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # type-check + production build
+npm run lint     # oxlint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Structure
+
+```
+src/
+  App.tsx                 route resolution, scroll handling, MotionConfig (respects reduced motion)
+  lib/
+    site.ts               identity, contact details and every external profile URL
+    navigation.ts         tiny History-API router (usePathname, navigate, scrollToHash)
+    router.tsx            <Link> for client-side navigation
+    usePageMeta.ts        per-route <title> / description
+    useActiveSection.ts   navbar active-section tracking
+  data/                   all content lives here, typed by data/types.ts
+    projects.ts           featured, other and academic projects (drives cards + case-study pages)
+    experience.ts  skills.ts  achievements.ts  education.ts
+  components/             page sections (Hero, About, Experience, Projects, Skills, Achievements, Education, Contact)
+    project/              ProjectVisual, ProjectPanels, ProjectLinks
+    ui/                   FlowDiagram, SectionHeading, Reveal, Button, Icons
+  pages/                  Home, ProjectDetail (/projects/:slug), NotFound
+public/
+  resume/Menil_Patel_Resume.pdf
+  projects/defi-nexus/    screenshots captured from the live deployment
+```
+
+## Updating content
+
+- **Add or edit a project:** add an entry to `src/data/projects.ts`. The card and `/projects/<slug>` page are generated from it.
+- **Competitive programming stats** are maintained by hand in `src/data/achievements.ts` — bump `statsLastUpdated` when they change.
+- **Resume:** replace `public/resume/Menil_Patel_Resume.pdf` (keep the filename).
+
+## Deployment
+
+`vercel.json` rewrites non-file routes to `index.html` so deep links like `/projects/sealapi` work on refresh.
